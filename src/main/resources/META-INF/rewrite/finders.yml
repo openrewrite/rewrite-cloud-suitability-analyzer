@@ -33,6 +33,9 @@ recipeList:
   - org.openrewrite.cloudsuitability.FindUnhandledTermSignal
   - org.openrewrite.cloudsuitability.FindHardcodedIpAddress
   - org.openrewrite.cloudsuitability.FindRemoteMethodInvocations
+  - org.openrewrite.cloudsuitability.FindJavaFx
+  - org.openrewrite.cloudsuitability.FindJaxRs
+  - org.openrewrite.cloudsuitability.FindJcaAnnotations
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.cloudsuitability.FindJavaBatch
@@ -226,3 +229,37 @@ recipeList:
       fullyQualifiedTypeName: 'javax.rmi..*'
   - org.openrewrite.java.search.FindTypes:
       fullyQualifiedTypeName: 'org.omg.IOP..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJavaFX
+displayName: Find use of JavaFX
+description: JavaFX is not cloud compatible and requires the JRE on the remote device.
+tags:
+  - java-java-fx-import
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javafx..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJaxRs
+displayName: Find use of JAX-RS
+description: Refer to platform documentation.
+tags:
+  - java-jaxrs-import
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'com.sun.jersey..*'
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javax.ws.rs..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJcaAnnotations
+displayName: Find uses of JCA
+description: Java messaging can present problems in TAS due to its emphemerality. Convert to a backing service or use TKG.
+tags:
+  - java-jcaAnnotations
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javax.resource.AdministeredObjectDefinition'
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javax.resource.ConnectionFactoryDefinition*'
