@@ -31,6 +31,8 @@ recipeList:
   - org.openrewrite.cloudsuitability.FindFileIo
   - org.openrewrite.cloudsuitability.FindFileScheme
   - org.openrewrite.cloudsuitability.FindUnhandledTermSignal
+  - org.openrewrite.cloudsuitability.FindHardcodedIpAddress
+  - org.openrewrite.cloudsuitability.FindRemoteMethodInvocations
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.cloudsuitability.FindJavaBatch
@@ -202,3 +204,25 @@ recipeList:
   - org.openrewrite.java.search.FindMethods:
       methodPattern: 'java.lang.Runtime addShutdownHook(..)'
       matchesOverrides: false
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindHardcodedIpAddress
+displayName: Find uses of hardcoded IP addresses
+description: Hardcoded IP addresses are problematic in K8S.
+tags:
+  - java-hardIP
+recipeList:
+  - org.openrewrite.java.search.FindLiterals:
+      pattern: '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindRemoteMethodInvocations
+displayName: Find remote method invocations
+description: Remote Method Invocations are not cloud native. Move to cloud friendly alternatives such as REST endpoints.
+tags:
+  - java-iop
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javax.rmi..*'
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'org.omg.IOP..*'
