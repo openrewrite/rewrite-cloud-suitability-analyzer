@@ -1,0 +1,83 @@
+#
+# Copyright 2021 the original author or authors.
+# <p>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# <p>
+# https://www.apache.org/licenses/LICENSE-2.0
+# <p>
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJavaBatch
+displayName: Uses of JNDI
+description: The advice is to remove JNDI provider or move to TKG.
+tags:
+  - java-batch
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: javax.naming..*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJavaBatchAnnotations
+displayName: Uses of Java Batch annotations
+description: Batch processing can include long running processes.
+tags:
+  - java-batchAnnotations
+recipeList:
+  - org.openrewrite.java.search.FindAnnotations:
+      annotationPattern: '@javax.batch..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindDistributedCacheUses
+displayName: Uses of distributed caches
+description: Distributed caches must be remediated to function in K8S.
+tags:
+  - java-cache-dist-import
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.ehcache..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.hazelcast..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.apache.ignite..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.infinispan..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: net.spy.memcached..*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindCacheUses
+displayName: Uses of caches
+description: Cloud readiness issue as potential state information that is not persisted to a backing service.
+tags:
+  - java-cache-import
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.tangosol..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.apache.commons-jcs-jcache..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.ibm.websphere.cache..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.hazelcast..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.jboss.ha.cachemanager..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.jboss.ha.cachemanager..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: javax.cache..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: net.spy.memcached..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.opensymphony.oscache..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.shiftone-cache..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.ibm.websphere.objectgrid..*
