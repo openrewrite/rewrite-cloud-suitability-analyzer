@@ -1,3 +1,5 @@
+@file:Suppress("GradlePackageUpdate")
+
 import com.github.jk1.license.LicenseReportExtension
 import nebula.plugin.contacts.Contact
 import nebula.plugin.contacts.ContactsExtension
@@ -106,7 +108,6 @@ dependencies {
     implementation("org.openrewrite:rewrite-properties:${rewriteVersion}")
     implementation("org.openrewrite:rewrite-yaml:${rewriteVersion}")
     implementation("org.openrewrite:rewrite-maven:${rewriteVersion}")
-
 
     // eliminates "unknown enum constant DeprecationLevel.WARNING" warnings from the build log
     // see https://github.com/gradle/kotlin-dsl-samples/issues/1301 for why (okhttp is leaking parts of kotlin stdlib)

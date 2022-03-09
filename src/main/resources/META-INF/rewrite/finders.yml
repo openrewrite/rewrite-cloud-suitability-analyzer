@@ -41,6 +41,7 @@ recipeList:
   - org.openrewrite.cloudsuitability.FindJetty
   - org.openrewrite.cloudsuitability.FindJKS
   - org.openrewrite.cloudsuitability.FindJMS
+  - org.openrewrite.cloudsuitability.FindJNI
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.cloudsuitability.FindJavaBatch
@@ -48,6 +49,7 @@ displayName: Uses of JNDI
 description: The advice is to remove JNDI provider or move to TKG.
 tags:
   - java-batch
+  - java-jndi
 recipeList:
   - org.openrewrite.java.search.FindTypes:
       fullyQualifiedTypeName: javax.naming..*
