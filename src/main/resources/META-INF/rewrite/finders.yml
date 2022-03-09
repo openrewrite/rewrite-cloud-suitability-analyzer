@@ -36,6 +36,11 @@ recipeList:
   - org.openrewrite.cloudsuitability.FindJavaFx
   - org.openrewrite.cloudsuitability.FindJaxRs
   - org.openrewrite.cloudsuitability.FindJcaAnnotations
+  - org.openrewrite.cloudsuitability.FindJCache
+  - org.openrewrite.cloudsuitability.FindJersey
+  - org.openrewrite.cloudsuitability.FindJetty
+  - org.openrewrite.cloudsuitability.FindJKS
+  - org.openrewrite.cloudsuitability.FindJMS
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.cloudsuitability.FindJavaBatch
@@ -263,3 +268,43 @@ recipeList:
       fullyQualifiedTypeName: 'javax.resource.AdministeredObjectDefinition'
   - org.openrewrite.java.search.FindTypes:
       fullyQualifiedTypeName: 'javax.resource.ConnectionFactoryDefinition*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJCache
+displayName: Find uses of JCache
+description: Convert to redis or consider TKG.
+tags:
+  - java-jcache
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javax.cache..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJersey
+displayName: Find uses of Jersey
+description: Refer to 3rd party organization for cloud affinity of library.
+tags:
+  - java-jersey
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'com.sun.jersey..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJetty
+displayName: Find uses of Jetty
+description: Use managed executor.
+tags:
+  - java-jetty
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'org.eclipse.jetty..*'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJMS
+displayName: Find JMS files
+description: Run embedded service broker as a JMS Provider.
+tags:
+  - java-jks
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: 'javax.jms..*'
