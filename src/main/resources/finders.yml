@@ -15,6 +15,24 @@
 #
 ---
 type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindUnsuitableCode
+displayName: Find code unsuitable for the cloud
+description: Locate patterns that may cause problems in containerized cloud environments.
+recipeList:
+  - org.openrewrite.cloudsuitability.FindJavaBatch
+  - org.openrewrite.cloudsuitability.FindJavaBatchAnnotations
+  - org.openrewrite.cloudsuitability.FindDistributedCacheUses
+  - org.openrewrite.cloudsuitability.FindCacheUses
+  - org.openrewrite.cloudsuitability.FindCorba
+  - org.openrewrite.cloudsuitability.FindEhcache
+  - org.openrewrite.cloudsuitability.FindEjbMdb
+  - org.openrewrite.cloudsuitability.FindEjbStateful
+  - org.openrewrite.cloudsuitability.FindEjbStateless
+  - org.openrewrite.cloudsuitability.FindFileIo
+  - org.openrewrite.cloudsuitability.FindFileScheme
+  - org.openrewrite.cloudsuitability.FindUnhandledTermSignal
+---
+type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.cloudsuitability.FindJavaBatch
 displayName: Uses of JNDI
 description: The advice is to remove JNDI provider or move to TKG.
@@ -81,3 +99,106 @@ recipeList:
       fullyQualifiedTypeName: org.shiftone-cache..*
   - org.openrewrite.java.search.FindTypes:
       fullyQualifiedTypeName: com.ibm.websphere.objectgrid..*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindCorba
+displayName: Uses of CORBA
+description: Replace with cloud-friendly framework or move to TKG.
+tags:
+  - java-corba
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.omg.CORBA..*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindEhcache
+displayName: Uses of ehcache
+description: Convert to Redis.
+tags:
+  - java-ehcache
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.ehcache..*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindEjbMdb
+displayName: Find EJB message-driven beans (MDBs)
+description: Consult MDB documentation.
+tags:
+  - java-ejb-mdb
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: javax.ejb.MessageDriven
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: javax.ejb.ActivationConfigProperty
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindEjbStateful
+displayName: Find EJB stateful beans
+description: Refer to platform documentation.
+tags:
+  - java-ejb-stateful-import
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: javax.ejb.Stateful
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindEjbStateless
+displayName: Find EJB stateless beans
+description: Refer to platform documentation.
+tags:
+  - java-ejb-stateless
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: javax.ejb.Stateless
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindFileIo
+displayName: Find uses of Java file IO
+description: Move to cloud friendly alternative or TKG.
+tags:
+  - java-fileIO
+recipeList:
+  - org.openrewrite.java.search.FindMethods:
+      methodPattern: 'java.io.File *(..)'
+      matchOverrides: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: java.io.LineNumber*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: java.io.*File*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindFileIo
+displayName: Find uses of Java file IO
+description: Move to cloud friendly alternative or TKG.
+tags:
+  - java-fileIO
+recipeList:
+  - org.openrewrite.java.search.FindMethods:
+      methodPattern: 'java.io.File *(..)'
+      matchOverrides: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: java.io.LineNumber*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: java.io.*File*
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindFileScheme
+displayName: Find uses of `file://` scheme in string literals
+description: Use backing service or use TKG.
+tags:
+  - java-fileSystem
+recipeList:
+  - org.openrewrite.java.search.FindLiterals:
+      pattern: 'file://'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindUnhandledTermSignal
+displayName: Find unhandled TERM signals
+description: For containerization, the TERM signal must be handled.
+tags:
+  - java-handles-term
+recipeList:
+  - org.openrewrite.java.search.FindMethods:
+      methodPattern: 'java.lang.Runtime addShutdownHook(..)'
+      matchesOverrides: false

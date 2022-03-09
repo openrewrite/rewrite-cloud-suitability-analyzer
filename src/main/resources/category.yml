@@ -15,6 +15,6 @@
 #
 ---
 type: specs.openrewrite.org/v1beta/category
-name: Cloud Suitability
+name: Cloud suitability analyzer
 packageName: org.openrewrite.cloudsuitability
 description: Locating many of the same patterns that [Cloud Suitability Analyzer](https://github.com/vmware-tanzu/cloud-suitability-analyzer/blob/master/rules/java-batch.yaml) does, but with type safety.
