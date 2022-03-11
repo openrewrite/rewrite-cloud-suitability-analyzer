@@ -21,6 +21,8 @@ import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.tree.J;
 
+import java.time.Duration;
+
 public class FindJNI extends Recipe {
 
     @Override
@@ -31,6 +33,11 @@ public class FindJNI extends Recipe {
     @Override
     public String getDescription() {
         return "A few conditions have to be met to make JNI calls.";
+    }
+
+    @Override
+    public Duration getEstimatedEffortPerOccurrence() {
+        return Duration.ofMinutes(5);
     }
 
     @Override
