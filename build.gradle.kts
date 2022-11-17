@@ -103,17 +103,20 @@ dependencies {
     compileOnly("org.projectlombok:lombok:latest.release")
     annotationProcessor("org.projectlombok:lombok:latest.release")
 
-    implementation("org.openrewrite:rewrite-java:${rewriteVersion}")
-    implementation("org.openrewrite:rewrite-xml:${rewriteVersion}")
-    implementation("org.openrewrite:rewrite-properties:${rewriteVersion}")
-    implementation("org.openrewrite:rewrite-yaml:${rewriteVersion}")
-    implementation("org.openrewrite:rewrite-maven:${rewriteVersion}")
+    implementation(platform("org.openrewrite:rewrite-bom:${rewriteVersion}"))
+    implementation("org.openrewrite:rewrite-java")
+    implementation("org.openrewrite:rewrite-xml")
+    implementation("org.openrewrite:rewrite-properties")
+    implementation("org.openrewrite:rewrite-yaml")
+    implementation("org.openrewrite:rewrite-maven")
 
     // eliminates "unknown enum constant DeprecationLevel.WARNING" warnings from the build log
     // see https://github.com/gradle/kotlin-dsl-samples/issues/1301 for why (okhttp is leaking parts of kotlin stdlib)
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    runtimeOnly("org.openrewrite:rewrite-java-11:$rewriteVersion")
+    runtimeOnly("org.openrewrite:rewrite-java-8")
+    runtimeOnly("org.openrewrite:rewrite-java-11")
+    runtimeOnly("org.openrewrite:rewrite-java-17")
 
     testImplementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -122,12 +125,13 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:latest.release")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:latest.release")
 
-    testImplementation("org.openrewrite:rewrite-test:${rewriteVersion}")
+    testImplementation("org.openrewrite:rewrite-test")
 
     testImplementation("org.assertj:assertj-core:latest.release")
 
-    testImplementation("org.openrewrite:rewrite-java-11:${rewriteVersion}")
-    testImplementation("org.openrewrite:rewrite-java-8:${rewriteVersion}")
+    testImplementation("org.openrewrite:rewrite-java-8")
+    testImplementation("org.openrewrite:rewrite-java-11")
+    testImplementation("org.openrewrite:rewrite-java-17")
 }
 
 tasks.named<Test>("test") {
@@ -148,10 +152,6 @@ tasks.named<JavaCompile>("compileJava") {
 tasks.withType(KotlinCompile::class.java).configureEach {
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-
-    doFirst {
-        destinationDir.mkdirs()
     }
 }
 
