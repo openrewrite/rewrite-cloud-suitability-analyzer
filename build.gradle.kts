@@ -54,6 +54,7 @@ dependencyCheck {
 }
 
 group = "org.openrewrite.recipe"
+description = "Rewrite module containing recipes pertinent to application containerization"
 
 repositories {
     if(!project.hasProperty("releasing")) {
