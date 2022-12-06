@@ -20,10 +20,11 @@ import org.openrewrite.Recipe;
 import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.tree.J;
+import org.openrewrite.marker.SearchResult;
 
 import java.time.Duration;
 
-public class FindJNI extends Recipe {
+public class FindJni extends Recipe {
 
     @Override
     public String getDisplayName() {
@@ -47,7 +48,7 @@ public class FindJNI extends Recipe {
             public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext ctx) {
                 J.MethodDeclaration m = super.visitMethodDeclaration(method, ctx);
                 if (method.hasModifier(J.Modifier.Type.Native)) {
-                    m = m.withMarkers(m.getMarkers().searchResult());
+                    m = SearchResult.found(m);
                 }
                 return m;
             }

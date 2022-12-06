@@ -39,9 +39,9 @@ recipeList:
   - org.openrewrite.cloudsuitability.FindJCache
   - org.openrewrite.cloudsuitability.FindJersey
   - org.openrewrite.cloudsuitability.FindJetty
-  - org.openrewrite.cloudsuitability.FindJKS
-  - org.openrewrite.cloudsuitability.FindJMS
-  - org.openrewrite.cloudsuitability.FindJNI
+  - org.openrewrite.cloudsuitability.FindJks
+  - org.openrewrite.cloudsuitability.FindJms
+  - org.openrewrite.cloudsuitability.FindJni
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.cloudsuitability.FindJavaBatch
@@ -238,7 +238,7 @@ recipeList:
       fullyQualifiedTypeName: 'org.omg.IOP..*'
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.cloudsuitability.FindJavaFX
+name: org.openrewrite.cloudsuitability.FindJavaFx
 displayName: Find use of JavaFX
 description: JavaFX is not cloud compatible and requires the JRE on the remote device.
 tags:
@@ -302,11 +302,23 @@ recipeList:
       fullyQualifiedTypeName: 'org.eclipse.jetty..*'
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.cloudsuitability.FindJMS
+name: org.openrewrite.cloudsuitability.FindJks
+displayName: Find java key store files
+description: In a cloud environment, use a centralized keystore, such as Azure Key Vault or AWS Secrets Manager, to better secure sensitive information.
+tags:
+  - java
+  - jks
+  - keystore
+recipeList:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: '**/*.jks'
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.cloudsuitability.FindJms
 displayName: Find JMS files
 description: Run embedded service broker as a JMS Provider.
 tags:
-  - java-jks
+  - java-jms
 recipeList:
   - org.openrewrite.java.search.FindTypes:
       fullyQualifiedTypeName: 'javax.jms..*'
