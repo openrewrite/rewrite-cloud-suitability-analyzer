@@ -54,6 +54,7 @@ configure<nebula.plugin.release.git.base.ReleasePluginExtension> {
 dependencyCheck {
     analyzers.assemblyEnabled = false
     failBuildOnCVSS = 9.0F
+    suppressionFile = "suppressions.xml"
 }
 
 group = "org.openrewrite.recipe"
