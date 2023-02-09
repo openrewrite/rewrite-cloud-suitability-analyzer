@@ -79,13 +79,13 @@ nexusPublishing {
 val signingKey: String? by project
 val signingPassword: String? by project
 val requireSigning = project.hasProperty("forceSigning") || project.hasProperty("releasing")
-if(signingKey != null && signingPassword != null) {
+if (signingKey != null && signingPassword != null) {
     signing {
         isRequired = requireSigning
         useInMemoryPgpKeys(signingKey, signingPassword)
         sign(publishing.publications["nebula"])
     }
-} else if(requireSigning) {
+} else if (requireSigning) {
     throw RuntimeException("Artifact signing is required, but signingKey and/or signingPassword are null")
 }
 
@@ -105,6 +105,12 @@ var rewriteVersion = if(project.hasProperty("releasing")) {
 }
 
 dependencies {
+    constraints {
+        implementation("com.fasterxml.woodstox:woodstox-core:6.5.0") {
+            because("Versions <= 6.3.1 contain vulnerabilities")
+        }
+    }
+
     compileOnly("org.projectlombok:lombok:latest.release")
     annotationProcessor("org.projectlombok:lombok:latest.release")
 
