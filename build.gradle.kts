@@ -185,8 +185,8 @@ configure<PublishingExtension> {
                         var length = dependencyList.length
                         while (i < length) {
                             (dependencyList.item(i) as org.w3c.dom.Element).let { dependency ->
-                                if ((dependency.getElementsByTagName("scope")
-                                        .item(0) as org.w3c.dom.Element).textContent == "provided") {
+                                val scopeElement = dependency.getElementsByTagName("scope").item(0) as? org.w3c.dom.Element
+                                if (scopeElement?.textContent == "provided") {
                                     dependencies.removeChild(dependency)
                                     i--
                                     length--
