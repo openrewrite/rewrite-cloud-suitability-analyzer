@@ -19,7 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.openrewrite.config.Environment;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
-import static org.openrewrite.test.SourceSpecs.text;
+
+import static org.openrewrite.test.SourceSpecs.other;
 
 public class FindUnsuitableCodeTest implements RewriteTest {
 
@@ -33,9 +34,9 @@ public class FindUnsuitableCodeTest implements RewriteTest {
 
     @Test
     void reportUseOfKeyStore() {
-        rewriteRun(
-                text("contents do not matter", "~~>contents do not matter", spec -> spec.path("mykeystore.jks"))
-        );
-
+        rewriteRun(other(
+                "contents do not matter",
+                "~~>⚛⚛⚛ The contents of this file are not visible. ⚛⚛⚛",
+                spec -> spec.path("mykeystore.jks")));
     }
 }
