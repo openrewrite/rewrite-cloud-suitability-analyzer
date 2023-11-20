@@ -11,3 +11,7 @@
 See the full documentation at [docs.openrewrite.org](https://docs.openrewrite.org/).
 
 Browse [a selection of recipes available through this module in the recipe catalog](https://docs.openrewrite.org/recipes/cloudsuitability).
+
+## Contributing
+
+We appreciate all types of contributions. See the [contributing guide](https://github.com/openrewrite/.github/blob/main/CONTRIBUTING.md) for detailed instructions on how to get started.
