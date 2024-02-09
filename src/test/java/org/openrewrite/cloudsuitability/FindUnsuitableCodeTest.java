@@ -23,7 +23,7 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.test.SourceSpecs.other;
 
-public class FindUnsuitableCodeTest implements RewriteTest {
+class FindUnsuitableCodeTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
